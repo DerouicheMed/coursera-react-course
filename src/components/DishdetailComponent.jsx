@@ -38,7 +38,13 @@ class CommentForm extends React.Component {
     });
   }
   handleSubmit(values) {
-    alert("Form: " + JSON.stringify(values));
+    this.toggleModal();
+    this.props.addComment(
+      this.props.dishId,
+      values.rating,
+      values.name,
+      values.comment
+    );
   }
   render() {
     return (
@@ -124,7 +130,7 @@ class CommentForm extends React.Component {
   }
 }
 
-const RenderComments = ({ comments }) => {
+const RenderComments = ({ comments, addComment, dishId }) => {
   return (
     <>
       <h4>Comments</h4>
@@ -145,7 +151,7 @@ const RenderComments = ({ comments }) => {
           );
         })}
       </ul>
-      <CommentForm />
+      <CommentForm dishId={dishId} addComment={addComment} />
     </>
   );
 };
@@ -182,7 +188,11 @@ const DishDetail = (props) => {
           <RenderDish dish={props.dish} />
         </div>
         <div className="col-12 col-md-5 m-1">
-          <RenderComments comments={props.comments} />
+          <RenderComments
+            comments={props.comments}
+            addComment={props.addComment}
+            dishId={props.dish.id}
+          />
         </div>
       </div>
     </div>
